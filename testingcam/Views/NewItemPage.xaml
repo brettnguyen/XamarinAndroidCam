@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="testingcam.Views.NewItemPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="New Item"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+       
+                 xmlns:z= "clr-namespace:testingcam.CameraView2" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             Background="black"
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Content>
+<ScrollView>
+        <Grid RowDefinitions="300, Auto, *">
+           
+            <Grid ColumnDefinitions="*, *" Grid.Row="0">
+              <z:CameraView
+                    Grid.Column="0"
+                    x:Name="cameraView"
+                    CaptureMode="Photo"
+                    FlashMode="Off"
+                    HorizontalOptions="FillAndExpand"
+                    MediaCaptured="CameraView_MediaCaptured"
+                    OnAvailable="CameraView_OnAvailable"
+                    VerticalOptions="FillAndExpand" />
+                <Label
+                    Grid.Column="0"
+                    Text="Camera"
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End" TextColor="White" />
+                
+                <Image
+                    Grid.Column="1"
+                    x:Name="previewPicture"
+                    Aspect="AspectFill"
+                    BackgroundColor="LightGray"
+                    
+                    
+                    />
+                
+        
+            
+               <xct:MediaElement
+                    Grid.Column="1"
+                    x:Name="previewVideo"
+                    Aspect="AspectFill"
+                 ScaleX="1.2"
+                   
+                   
+                    BackgroundColor="Transparent"
+                   AutoPlay="True"
+                   IsLooping="True"
+                   ShowsPlaybackControls="False"
+                   
+                    IsVisible="false"/>
+                
+                <Label
+                    Grid.Column="1"
+                    Text="Result"
+                    HorizontalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End" TextColor="White" />
+            </Grid>
+
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Label x:Name="zoomLabel" TextColor="White" />
+                <Slider
+                    x:Name="zoomSlider"
+                    Margin="5,0"
+                    IsEnabled="False"
+                    Maximum="10"
+                    Minimum="1"
+                    HorizontalOptions="FillAndExpand"
+                    ValueChanged="ZoomSlider_ValueChanged"
+                    Value="1" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="2">
+                <Grid ColumnDefinitions="*, *" RowDefinitions="*,*">
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5"
+                        Orientation="Horizontal">
+                        <Switch
+                            Margin="0,0,5,0"
+                            IsToggled="False"
+                            Toggled="VideoSwitch_Toggled" />
+                        <Label Text="Video" TextColor="White" />
+                    </StackLayout>
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="5"
+                        Orientation="Horizontal">
+                        <Switch
+                            Margin="0,0,5,0"
+                            IsToggled="False"
+                            Toggled="FrontCameraSwitch_Toggled" />
+                        <Label Text="Front camera" TextColor="White"/>
+                    </StackLayout>
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        Orientation="Horizontal">
+                        <Switch
+                            Margin="0,0,5,0"
+                            IsToggled="False"
+                            Toggled="FlashSwitch_Toggled" />
+                        <Label Text="Flash"  TextColor="White"/>
+                    </StackLayout>
+                </Grid>
+
+                <Button
+                    x:Name="doCameraThings"
+                    Clicked="DoCameraThings_Clicked"
+                    IsEnabled="False"
+                    Text="Snap picture" />
+                
+            </StackLayout>
+           
+        </Grid>
+
+    </ScrollView>
+    </ContentPage.Content>
+    
+</ContentPage>

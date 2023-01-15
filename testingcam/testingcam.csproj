@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+    <PackageReference Include="SkiaSharp" Version="2.88.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.4" />
+
+    <PackageReference Include="Xam.Forms.VideoPlayer" Version="1.0.8" />
+    <PackageReference Include="Plugin.MediaManager" Version="1.1.1" />
+    <PackageReference Include="Plugin.MediaManager.Forms" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Xamarin.CommunityToolkit" />
+    <None Remove="SixLabors.ImageSharp" />
+    <None Remove="Leadtools.Camera.Xamarin" />
+    <None Remove="SkiaSharp" />
+    <None Remove="Views\MediaElement2\" />
+    <None Remove="Core\" />
+    <None Remove="Helpers\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Views\CameraView2\" />
+    <None Remove="Xam.Forms.VideoPlayer" />
+    <None Remove="Plugin.MediaManager" />
+    <None Remove="Plugin.MediaManager.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\MediaElement2\" />
+    <Folder Include="Core\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Views\CameraView2\" />
+  </ItemGroup>
+</Project>
