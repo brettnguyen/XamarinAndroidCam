@@ -16,7 +16,7 @@ using Android.Graphics;
 using Android.Content;
 using Android.Content.PM;
 using Android.Hardware.Camera2;
-
+using Laerdal.Xamarin.FFmpeg;
 using Android.Views;
 using Android.Runtime;
 using Android.OS;
@@ -41,6 +41,7 @@ using APoint = Android.Graphics.Point;
 using testingcam.CameraView2;
 
 using Android.Media;
+using Laerdal.Xamarin.FFmpeg.Android;
 
 namespace testingcam.Droid.Camera
 {
@@ -58,10 +59,13 @@ namespace testingcam.Droid.Camera
 		CameraDevice? device;
 		CaptureRequest.Builder? sessionBuilder;
 		CameraCaptureSession? session;
-
+		TextureView texture2;
 		AutoFitTextureView? texture;
-		ImageReader? photoReader;
+		MirrorSurfaceView surfaceView;
+
+        ImageReader? photoReader;
 		MediaRecorder? mediaRecorder;
+		MediaPlayer m;
 		bool audioPermissionsGranted;
 		bool cameraPermissionsGranted;
 		ASize? previewSize, videoSize, photoSize;
@@ -75,7 +79,8 @@ namespace testingcam.Droid.Camera
 		FlashMode flashMode;
 		string? cameraId;
 		string videoFile = string.Empty;
-		CameraTemplate? cameraTemplate;
+        string outputPath = string.Empty;
+        CameraTemplate? cameraTemplate;
 		HandlerThread? backgroundThread;
 		Handler? backgroundHandler = null;
 
@@ -132,9 +137,14 @@ namespace testingcam.Droid.Camera
 		public override AView? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) =>
 			inflater.Inflate(Resource.Layout.CameraFragment, null);
 
-		public override void OnViewCreated(AView view, Bundle savedInstanceState) =>
+		public override void OnViewCreated(AView view, Bundle savedInstanceState)
+		{
 			texture = view.FindViewById<AutoFitTextureView>(Resource.Id.cameratexture);
+			
+            surfaceView = view.FindViewById<MirrorSurfaceView>(Resource.Id.surfaceView);
+			surfaceView.ScaleX = -1;
 
+        }
 		public override async void OnResume()
 		{
 			base.OnResume();
@@ -151,7 +161,9 @@ namespace testingcam.Droid.Camera
 			}
 			else
 				texture.SurfaceTextureListener = this;
-		}
+           
+
+        }
 
 		public override void OnPause()
 		{
@@ -458,8 +470,8 @@ namespace testingcam.Droid.Camera
 			
 			mediaRecorder = new MediaRecorder();
 
-
 			
+		
 			mediaRecorder.SetPreviewDisplay(previewSurface);
 		
 
@@ -485,14 +497,15 @@ namespace testingcam.Droid.Camera
 				
 				mediaRecorder.SetVideoSize(videoSize.Width, videoSize.Height);
 				mediaRecorder.SetVideoEncoder(VideoEncoder.H264);
-
+			
 				if (audioPermissionsGranted)
 					mediaRecorder.SetAudioEncoder(AudioEncoder.Default);
 			}
-
-			videoFile = ConstructMediaFilename("VID", "mp4");
-
-			mediaRecorder.SetOutputFile(videoFile);
+            
+            videoFile = ConstructMediaFilename("VID", "mp4");
+            outputPath = ConstructMediaFilename("VID2", "mp4");
+			
+            mediaRecorder.SetOutputFile(videoFile);
 			mediaRecorder.SetOrientationHint(GetCaptureOrientation());
 			mediaRecorder.Prepare();
 		}
@@ -561,8 +574,31 @@ namespace testingcam.Droid.Camera
 			{
 				mediaRecorder.Stop();
 				Sound(MediaActionSoundType.StopVideoRecording);
-				OnVideo(this, videoFile);
-			}
+				
+				if (Element.CameraOptions == CameraOptions.Front)
+				{
+					//surfaceView.Visibility = ViewStates.Visible;
+					var texture12 = surfaceView.SurfaceTexture ?? throw new NullReferenceException();
+					var pr = new Surface(texture12);
+					m = new MediaPlayer();
+					m.SetDataSource(videoFile);
+					m.SetSurface(pr);
+					m.Prepare();
+					m.Start();
+					m.Looping = true;
+					texture.Visibility = ViewStates.Gone;
+				}
+				
+                    OnVideo(this, videoFile);
+               
+				/*
+               var command = new string[] { "-i", videoFile, "-vf", "hflip", "-preset", "veryfast",  outputPath };
+               Laerdal.Xamarin.FFmpeg.Android.FFmpeg.Execute(command);
+                 mediaRecorder.SetOutputFile(outputPath);
+                OnVideo(this, outputPath);
+				*/
+                
+            }
 			catch (Java.Lang.Exception ex)
 			{
 				LogError("Stop record exception", ex);
@@ -827,8 +863,8 @@ namespace testingcam.Droid.Camera
 			UpdateBackgroundColor();
 			UpdateCaptureOptions();
 			
-			
-			await RetrieveCameraDevice();
+           
+            await RetrieveCameraDevice();
 		}
 
 		void TextureView.ISurfaceTextureListener.OnSurfaceTextureSizeChanged(SurfaceTexture? surface, int width, int height) =>
@@ -1037,6 +1073,7 @@ namespace testingcam.Droid.Camera
 		int GetCaptureOrientation()
 		{
 			var frontOffset = cameraType == LensFacing.Front ? 0 : 0;
+			
 			return (360 + sensorOrientation - GetDisplayRotationDegrees() + frontOffset) % 360;
 		}
 
@@ -1118,6 +1155,18 @@ namespace testingcam.Droid.Camera
 			return fallbackChoice;
 		}
 
+		public async void test()
+		{
+			
+            var command = new string[] { "-i", videoFile, "-vf", "hflip", videoFile };
+             Laerdal.Xamarin.FFmpeg.Android.FFmpeg.Execute(command);
+        }
+		public void reset()
+		{
+			texture.Visibility = ViewStates.Visible;
+			//surfaceView.Visibility = ViewStates.Gone;
+			m.Release();
+		}
 	}
 
 }

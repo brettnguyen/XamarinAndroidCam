@@ -146,6 +146,9 @@
     <PackageReference Include="Plugin.MediaManager.Forms">
       <Version>1.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Laerdal.Xamarin.FFmpeg.Video">
+      <Version>4.4.17</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

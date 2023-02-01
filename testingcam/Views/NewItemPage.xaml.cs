@@ -17,14 +17,14 @@ namespace testingcam.Views
         public NewItemPage()
         {
             InitializeComponent();
-            zoomLabel.Text = string.Format("Zoom: {0}", zoomSlider.Value);
+            
 
         }
 
 		 void ZoomSlider_ValueChanged(object sender, ValueChangedEventArgs e)
 		{
-			cameraView.Zoom = (float)zoomSlider.Value;
-			zoomLabel.Text = string.Format("Zoom: {0}", Math.Round(zoomSlider.Value));
+			
+			
 		}
 
 		void VideoSwitch_Toggled(object sender, ToggledEventArgs e)
@@ -60,18 +60,10 @@ namespace testingcam.Views
 
 		void CameraView_OnAvailable(object sender, bool e)
 		{
-			if (e)
-			{
-				zoomSlider.Value = cameraView.Zoom;
-				var max = cameraView.MaxZoom;
-				if (max > zoomSlider.Minimum && max > zoomSlider.Value)
-					zoomSlider.Maximum = max;
-				else
-					zoomSlider.Maximum = zoomSlider.Minimum + 1; // if max == min throws exception
-			}
+			
 
 			doCameraThings.IsEnabled = e;
-			zoomSlider.IsEnabled = e;
+			
 		}
 
 	 void CameraView_MediaCaptured(object sender, MediaCapturedEventArgs e)
@@ -92,9 +84,17 @@ namespace testingcam.Views
 					break;
 				case CameraCaptureMode.Video:
 					previewPicture.IsVisible = false;
-					previewVideo.IsVisible = true;
-					previewVideo.Source = e.Video;
-					
+					/*
+					if (cameraView.CameraOptions == CameraOptions.Back)
+					{
+						previewVideo.IsVisible = true;
+						previewVideo.Source = e.Video;
+					}
+					else
+					{
+
+					}
+					*/
 					doCameraThings.Text = "Start Recording";
 					break;
 			}
@@ -103,7 +103,11 @@ namespace testingcam.Views
 
 		}
 
-		
-		
-	}
+        void Button_Clicked(System.Object sender, System.EventArgs e)
+        {
+			cameraView.Reset();
+        }
+
+
+    }
 }

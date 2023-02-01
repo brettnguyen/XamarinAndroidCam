@@ -16,6 +16,8 @@
     <PackageReference Include="Xam.Forms.VideoPlayer" Version="1.0.8" />
     <PackageReference Include="Plugin.MediaManager" Version="1.1.1" />
     <PackageReference Include="Plugin.MediaManager.Forms" Version="1.1.1" />
+    <PackageReference Include="Laerdal.Xamarin.FFmpeg.Video" Version="4.4.17" />
+    <PackageReference Include="Octane.Xam.VideoPlayer" Version="3.1.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Xamarin.CommunityToolkit" />
@@ -30,6 +32,8 @@
     <None Remove="Xam.Forms.VideoPlayer" />
     <None Remove="Plugin.MediaManager" />
     <None Remove="Plugin.MediaManager.Forms" />
+    <None Remove="Laerdal.Xamarin.FFmpeg.Video" />
+    <None Remove="Octane.Xam.VideoPlayer" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\MediaElement2\" />

@@ -4,8 +4,10 @@
              x:Class="testingcam.Views.NewItemPage"
              Shell.PresentationMode="ModalAnimated"
              Title="New Item"
+             xmlns:t="clr-namespace:testingcam"
+            xmlns:o="clr-namespace:Octane.Xamarin.Forms.VideoPlayer;assembly=Octane.Xamarin.Forms.VideoPlayer"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-       
+       xmlns:kct="clr-namespace:testingcam.MediaElement2.Views"
                  xmlns:z= "clr-namespace:testingcam.CameraView2" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              Background="black"
              ios:Page.UseSafeArea="true">
@@ -22,6 +24,7 @@
                     HorizontalOptions="FillAndExpand"
                     MediaCaptured="CameraView_MediaCaptured"
                     OnAvailable="CameraView_OnAvailable"
+                 CameraOptions="Back"
                     VerticalOptions="FillAndExpand" />
                 <Label
                     Grid.Column="0"
@@ -35,25 +38,31 @@
                     x:Name="previewPicture"
                     Aspect="AspectFill"
                     BackgroundColor="LightGray"
-                    
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"
                     
                     />
                 
-        
-            
-               <xct:MediaElement
-                    Grid.Column="1"
+       
+              
+                    <Button HeightRequest="50" WidthRequest="50" HorizontalOptions="Center" VerticalOptions="Center" Clicked="Button_Clicked"></Button>
+            <kct:MediaElement2  Grid.Column="1"
                     x:Name="previewVideo"
                     Aspect="AspectFill"
-                 ScaleX="1.2"
+                
+                   VerticalOptions="Fill"
+                   HorizontalOptions="Fill"
                    
-                   
+                   ScaleX="1"
                     BackgroundColor="Transparent"
                    AutoPlay="True"
                    IsLooping="True"
                    ShowsPlaybackControls="False"
                    
-                    IsVisible="false"/>
+                    IsVisible="false">
+                </kct:MediaElement2>
+
+              
                 
                 <Label
                     Grid.Column="1"

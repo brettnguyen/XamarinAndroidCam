@@ -15,6 +15,7 @@ namespace testingcam.Droid.Camera
 		public AutoFitTextureView(Context context)
 			: this(context, null)
 		{
+			
 		}
 
 		public AutoFitTextureView(Context context, IAttributeSet attrs)

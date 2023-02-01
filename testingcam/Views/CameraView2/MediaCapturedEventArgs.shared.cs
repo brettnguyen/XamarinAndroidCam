@@ -2,14 +2,14 @@
 using System.IO;
 using Xamarin.Forms;
 using ZCT = testingcam.Core;
-using XCT = Xamarin.CommunityToolkit.Core;
+
 namespace testingcam.CameraView2
 {
 	public class MediaCapturedEventArgs : EventArgs
 	{
 		readonly string path;
 		readonly Lazy<ImageSource> imageSource;
-		readonly Lazy<XCT.FileMediaSource> mediaSource;
+		readonly Lazy<ZCT.FileMediaSource> mediaSource;
 
 		public MediaCapturedEventArgs(
 			string path = null,
@@ -21,7 +21,7 @@ namespace testingcam.CameraView2
 			Rotation = rotation;
 			ImageData = imageData;
 			imageSource = new Lazy<ImageSource>(GetImageSource);
-			mediaSource = new Lazy<XCT.FileMediaSource>(GetMediaSource);
+			mediaSource = new Lazy<ZCT.FileMediaSource>(GetMediaSource);
 		}
 
 
@@ -45,7 +45,7 @@ namespace testingcam.CameraView2
 
 		public ImageSource Image => imageSource.Value;
 
-		public XCT.FileMediaSource Video => mediaSource.Value;
+		public ZCT.FileMediaSource Video => mediaSource.Value;
 
 		ImageSource GetImageSource()
 		{
@@ -55,7 +55,7 @@ namespace testingcam.CameraView2
 			return !string.IsNullOrEmpty(path) ? path : null;
 		}
 
-		XCT.FileMediaSource GetMediaSource()
+		ZCT.FileMediaSource GetMediaSource()
 		{
 			
 			if (path != null && !string.IsNullOrEmpty(path))

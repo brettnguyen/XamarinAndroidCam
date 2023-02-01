@@ -46,6 +46,7 @@ namespace testingcam.Droid.Camera
 		{
 			motionEventHelper = new MotionEventHelper();
 			visualElementRenderer = new VisualElementRenderer(this);
+
 		}
 
 		public event EventHandler<VisualElementChangedEventArgs> ElementChanged;
@@ -60,6 +61,7 @@ namespace testingcam.Droid.Camera
 
 			switch (e.PropertyName)
 			{
+				
 				case nameof(CameraView.CameraOptions):
 					await camerafragment.RetrieveCameraDevice();
 					break;
@@ -101,7 +103,8 @@ namespace testingcam.Droid.Camera
 			{
 				e.OldElement.PropertyChanged -= OnElementPropertyChanged;
 				e.OldElement.ShutterClicked -= OnShutterClicked;
-				camerafragment?.Dispose();
+                e.OldElement.ResetClicked -= OnReset;
+                camerafragment?.Dispose();
 				camerafragment = null;
 			}
 
@@ -111,7 +114,7 @@ namespace testingcam.Droid.Camera
 
 				e.NewElement.PropertyChanged += OnElementPropertyChanged;
 				e.NewElement.ShutterClicked += OnShutterClicked;
-
+				e.NewElement.ResetClicked += OnReset;
 				ElevationHelper.SetElevation(this, e.NewElement);
 				newfragment = new CameraFragment() { Element = element };
 			}
@@ -128,6 +131,7 @@ namespace testingcam.Droid.Camera
 			get => element;
 			set
 			{
+				
 				if (element == value)
 					return;
 
@@ -180,8 +184,8 @@ namespace testingcam.Droid.Camera
 				{
 					Element.PropertyChanged -= OnElementPropertyChanged;
 					Element.ShutterClicked -= OnShutterClicked;
-
-					if (Platform.GetRenderer(Element) == this)
+                    Element.ResetClicked -= OnReset;
+                    if (Platform.GetRenderer(Element) == this)
 						Platform.SetRenderer(Element, null);
 				}
 			}
@@ -206,8 +210,12 @@ namespace testingcam.Droid.Camera
 					break;
 			}
 		}
+		async void OnReset(object sender, EventArgs e)
+		{
+			camerafragment.reset();
+		}
 
-		void IViewRenderer.MeasureExactly() => MeasureExactly(this, Element, Context);
+            void IViewRenderer.MeasureExactly() => MeasureExactly(this, Element, Context);
 
 		static void MeasureExactly(AView control, VisualElement element, Context context)
 		{

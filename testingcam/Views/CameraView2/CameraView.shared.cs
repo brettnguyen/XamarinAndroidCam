@@ -16,8 +16,9 @@ namespace testingcam.CameraView2
 		public event EventHandler<bool> OnAvailable;
 
 		public event EventHandler ShutterClicked;
+        public event EventHandler ResetClicked;
 
-		internal static readonly BindablePropertyKey ShutterCommandPropertyKey =
+        internal static readonly BindablePropertyKey ShutterCommandPropertyKey =
 			BindableProperty.CreateReadOnly(nameof(ShutterCommand),
 				typeof(ICommand),
 				typeof(CameraView),
@@ -120,7 +121,9 @@ namespace testingcam.CameraView2
 
 		public void Shutter() => ShutterClicked?.Invoke(this, EventArgs.Empty);
 
-		static object ShutterCommandValueCreator(BindableObject b)
+        public void Reset() => ResetClicked?.Invoke(this, EventArgs.Empty);
+
+        static object ShutterCommandValueCreator(BindableObject b)
 		{
 			if (b is CameraView camera)
 				return new Command(camera.Shutter);

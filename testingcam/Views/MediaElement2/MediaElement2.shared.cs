@@ -129,11 +129,11 @@ namespace testingcam.MediaElement2.Views
 			set => SetValue(SpeedProperty, value);
 		}
 
-		internal event EventHandler<SeekRequested> SeekRequested;
+		public EventHandler<SeekRequested> SeekRequested;
 
-		internal event EventHandler<StateRequested> StateRequested;
+		public EventHandler<StateRequested> StateRequested;
 
-		internal event EventHandler PositionRequested;
+		public EventHandler PositionRequested;
 
 		public event EventHandler MediaEnded;
 
@@ -190,8 +190,10 @@ namespace testingcam.MediaElement2.Views
 			get => (double)GetValue(VolumeProperty);
 			set => SetValue(VolumeProperty, value);
 		}
+        StateRequested IMediaElementController.stateRequested { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        SeekRequested IMediaElementController.seekRequested { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		void IMediaElementController.OnMediaEnded()
+        void IMediaElementController.OnMediaEnded()
 		{
 			SetValue(CurrentStateProperty, MediaElement2State.Stopped);
 			MediaEnded?.Invoke(this, EventArgs.Empty);
@@ -296,14 +298,14 @@ namespace testingcam.MediaElement2.Views
 		}
 	}
 
-	class SeekRequested : EventArgs
+	public class SeekRequested : EventArgs
 	{
 		public TimeSpan Position { get; }
 
 		public SeekRequested(TimeSpan position) => Position = position;
 	}
 
-	class StateRequested : EventArgs
+	public class StateRequested : EventArgs
 	{
 		public MediaElement2State State { get; }
 
@@ -313,8 +315,9 @@ namespace testingcam.MediaElement2.Views
 	public interface IMediaElementController
 	{
 		double BufferingProgress { get; set; }
-
-		MediaElement2State CurrentState { get; set; }
+		StateRequested stateRequested { get; set; }
+		SeekRequested seekRequested { get; set; }
+        MediaElement2State CurrentState { get; set; }
 
 		TimeSpan? Duration { get; set; }
 

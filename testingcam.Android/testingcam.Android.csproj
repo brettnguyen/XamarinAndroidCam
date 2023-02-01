@@ -76,6 +76,9 @@
     <PackageReference Include="Plugin.MediaManager.Forms">
       <Version>1.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Octane.Xam.VideoPlayer">
+      <Version>3.1.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -89,6 +92,15 @@
     <Compile Include="Camera\CameraViewRenderer.android.cs" />
     <Compile Include="Camera\ImageAvailableListener.android.cs" />
     <Compile Include="Camera\MotionEventHelper.android.cs" />
+    <Compile Include="FormsVideoView.cs" />
+    <Compile Include="MediaElementRenderer.cs" />
+    <Compile Include="FFmpegWrapper.cs" />
+    <Compile Include="Camera\Surfacetest.cs" />
+    <Compile Include="Texturetest.cs" />
+    <Compile Include="testrenderer.cs" />
+    <Compile Include="test99.cs" />
+    <Compile Include="test99Renderer.cs" />
+    <Compile Include="MirrorSurfaceView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -114,6 +126,14 @@
     <AndroidResource Include="Resources\drawable\icon_about.png" />
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
     <AndroidResource Include="Resources\Layout\CameraFragment.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\testtexturing.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\mirror.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
